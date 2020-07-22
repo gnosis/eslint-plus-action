@@ -21,14 +21,19 @@ set -e
 
 if [ ! -d "./node_modules" ] || [ "$2" = 'true' ] ; then
     echo "Install Yarn"
-    [ -f yarn.lock ] && yarn install --frozen-lockfile --prefer-offline
-    [ -f package-lock.json ] && npm ci
+    if [ -f yarn.lock ]; then 
+        echo "Yarn Action Install"
+        yarn cache clean
+        mkdir .yarncache
+        NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
+        rm -rf .yarncache
+    fi
 fi
 
 pushd /action
-echo "Yarn Action Install"
 
 if [ -f yarn.lock ]; then 
+  echo "Yarn Action Install"
   yarn cache clean
   mkdir .yarncache
   NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
