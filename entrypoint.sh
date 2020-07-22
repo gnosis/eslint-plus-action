@@ -29,6 +29,7 @@ pushd /action
 echo "Yarn Action Install"
 
 if [ -f yarn.lock ]; then 
+  yarn cache clean
   mkdir .yarncache
   NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
   rm -rf .yarncache
