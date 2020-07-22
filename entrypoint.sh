@@ -28,7 +28,12 @@ fi
 pushd /action
 echo "Yarn Action Install"
 
-[ -f yarn.lock ] && NODE_ENV=production yarn install --frozen-lockfile --prefer-offline
+if [ -f yarn.lock ]; then 
+  mkdir .yarncache
+  NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
+  rm -rf .yarncache
+fi
+
 [ -f package-lock.json ] && NODE_ENV=production npm install 
 popd
 
