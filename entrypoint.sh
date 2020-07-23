@@ -23,7 +23,7 @@ if [ ! -d "./node_modules" ] || [ "$2" = 'true' ] ; then
     if [ -f yarn.lock ]; then 
         echo "Yarn Action Install"
         mkdir .yarncache
-        NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
+        yarn install --frozen-lockfile --cache-folder ./.yarncache
     fi
 fi
 
