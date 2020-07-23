@@ -20,25 +20,22 @@ popd () {
 set -e
 
 if [ ! -d "./node_modules" ] || [ "$2" = 'true' ] ; then
-    echo "Install Yarn"
     if [ -f yarn.lock ]; then 
         echo "Yarn Action Install"
-        yarn cache clean
         mkdir .yarncache
         NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
-        rm -rf .yarncache
     fi
 fi
 
 pushd /action
 
-if [ -f yarn.lock ]; then 
-  echo "Yarn Action Install"
-  yarn cache clean
-  mkdir .yarncache
-  NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
-  rm -rf .yarncache
-fi
+# if [ -f yarn.lock ]; then 
+#   echo "Yarn Action Install"
+#   yarn cache clean
+#   mkdir .yarncache
+#   NODE_ENV=production yarn install --frozen-lockfile --cache-folder ./.yarncache
+#   rm -rf .yarncache
+# fi
 
 [ -f package-lock.json ] && NODE_ENV=production npm install 
 popd
@@ -50,3 +47,5 @@ NODE_PATH=node_modules GITHUB_TOKEN="${GITHUB_TOKEN:-${1:-.}}" SOURCE_ROOT=${2:-
 
 rm -rf node_modules # cleanup to prevent some weird permission errors later on 
 rm -rf yarn.lock
+rm -rf .yarncache
+yarn cache clean
