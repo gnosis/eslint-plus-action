@@ -12,7 +12,7 @@ LABEL com.github.actions.color="yellow"
 # RUN apk add --update alpine-sdk
 
 RUN apt update
-RUN apt install libusb-1.0-0-dev libmagickwand-dev -y
+RUN apt install libusb-1.0-0-dev libmagickwand-dev -y libudev-dev
 
 COPY . /action
 
