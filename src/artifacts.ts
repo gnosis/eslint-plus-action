@@ -147,6 +147,7 @@ export async function downloadArtifact(
   target: GitHubArtifact,
 ): Promise<string> {
   console.log('trying to download an artifact');
+  console.log({ owner, repo, artifact_id: target.id });
   const downloadData = await client.actions.downloadArtifact({
     owner: OWNER,
     repo: REPO,
