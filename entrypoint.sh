@@ -44,7 +44,7 @@ popd
 
 
 echo "Execute From Directory: $(pwd)"
-echo SOURCE_ROOT
+echo $(SOURCE_ROOT)
 
 NODE_PATH=node_modules GITHUB_TOKEN="${GITHUB_TOKEN:-${1:-.}}" SOURCE_ROOT=${2:-.} node /action/lib/run.js
 
