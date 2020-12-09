@@ -69,7 +69,7 @@ export async function downloadArtifacts(
 ): Promise<string[]> {
   console.log('trying to download artifcats');
   const artifacts = _artifacts || (await getArtifactsForRepo(client));
-
+  console.log({ artifacts });
   const filtered = filter
     ? filter(artifacts.data.artifacts)
     : artifacts.data.artifacts;
