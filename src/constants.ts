@@ -55,7 +55,7 @@ export const BASE_FULL_NAME = isPullRequestPayload(context.payload)
 export const HEAD_FULL_NAME = isPullRequestPayload(context.payload)
   ? context.payload.pull_request.head.repo.full_name
   : undefined;
-
+console.log(github.context);
 export const { owner: OWNER, repo: REPO, number: ISSUE_NUMBER } =
   github.context.issue || github.context.repo;
 
