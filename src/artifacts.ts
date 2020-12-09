@@ -67,6 +67,7 @@ export async function downloadArtifacts(
   filter: ArtifactFilter = defaultArtifactFilter,
   _artifacts?: OctokitListArtifactsResponse,
 ): Promise<string[]> {
+  console.log('trying to download artifcats');
   const artifacts = _artifacts || (await getArtifactsForRepo(client));
 
   const filtered = filter
