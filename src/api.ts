@@ -91,9 +91,15 @@ export async function fetchFilesBatchCommit(
       ref: data.sha,
     });
 
-    const filesChanged = resp.data.files.map((f) => f.filename);
+    const filesChanged = resp.data.files
+      ?.filter((f) => f.filename)
+      .map((f) => f.filename as string);
 
     core.info(`Files changed: ${filesChanged}`);
+
+    if (typeof filesChanged === 'undefined') {
+      return [];
+    }
 
     return filesChanged;
   } catch (err) {

@@ -17,7 +17,7 @@ async function removeIssueSummary(client: Octokit, data: ActionData) {
     });
     await Promise.all(
       comments.data.reduce((arr, comment) => {
-        if (comment.user.id === data.persist.workflow.userId) {
+        if (comment.user?.id === data.persist.workflow.userId) {
           arr.push(
             client.issues.deleteComment({
               owner: OWNER,
@@ -57,7 +57,7 @@ async function createIssueComment(
   });
   // persist the comments id so we can edit or remove it in future
   data.persist.issue.summaryId = commentResult.data.id;
-  data.persist.workflow.userId = commentResult.data.user.id;
+  data.persist.workflow.userId = commentResult.data.user?.id;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -81,7 +81,7 @@ export async function handleIssueComment(client: Octokit, data: ActionData) {
             body: getResultMarkdownBody(data),
           });
           if (!data.persist.workflow.userId) {
-            data.persist.workflow.userId = result.data.user.id;
+            data.persist.workflow.userId = result.data.user?.id;
           }
         } catch (error) {
           // if user deleted the comment manually it wont exist

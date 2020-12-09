@@ -154,7 +154,7 @@ export async function downloadArtifact(
     archive_format: 'zip',
   });
   console.log('artifact downloaded');
-  return unzipEntry(target.name, Buffer.from(downloadData.data));
+  return unzipEntry(target.name, Buffer.from(downloadData.data as string));
 }
 
 /**
