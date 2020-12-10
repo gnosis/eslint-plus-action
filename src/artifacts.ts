@@ -67,7 +67,6 @@ export async function downloadArtifacts(
   filter: ArtifactFilter = defaultArtifactFilter,
   _artifacts?: OctokitListArtifactsResponse,
 ): Promise<string[]> {
-  console.log('trying to download artifcats');
   const artifacts = _artifacts || (await getArtifactsForRepo(client));
 
   const filtered = filter
@@ -147,15 +146,13 @@ export async function downloadArtifact(
   client: Octokit,
   target: GitHubArtifact,
 ): Promise<string> {
-  console.log('trying to download an artifact');
-  console.log({ OWNER, REPO, artifact_id: target.id });
   const downloadData = await client.actions.downloadArtifact({
     owner: OWNER,
     repo: REPO,
     artifact_id: target.id,
     archive_format: 'zip',
   });
-  console.log('artifact downloaded');
+
   return unzipEntry(target.name, Buffer.from(downloadData.data as string));
 }
 
