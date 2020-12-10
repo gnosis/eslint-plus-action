@@ -73,7 +73,8 @@ export async function downloadArtifacts(
     ? filter(artifacts.data.artifacts)
     : artifacts.data.artifacts;
 
-  if (filtered.length === 0) {
+  const withoutExpired = filtered.filter((a) => !a.expired);
+  if (withoutExpired.length === 0) {
     return [];
   }
 
@@ -152,7 +153,7 @@ export async function downloadArtifact(
     archive_format: 'zip',
   });
 
-  return unzipEntry(target.name, Buffer.from(downloadData.data));
+  return unzipEntry(target.name, Buffer.from(downloadData.data as string));
 }
 
 /**

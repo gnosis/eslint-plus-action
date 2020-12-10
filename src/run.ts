@@ -120,7 +120,6 @@ async function run(): Promise<void> {
     };
 
     const client = getOctokitClient(data);
-
     switch (data.eventName) {
       /*
         When the task runs on a schedule, it is assumed that it is to parse and lint any forked PR's 

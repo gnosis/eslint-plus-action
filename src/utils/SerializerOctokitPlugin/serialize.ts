@@ -61,6 +61,7 @@ export const Serializers = new Map<string, Serializer>([
         data.state.checkId = result.data.id;
         // we need to map the id so future requests to updata can be modified
         SERIALIZER_MAP.set(descriptor.result.data.id, result);
+        // @ts-expect-error no idea what's happening here
         return result;
       },
     },
@@ -113,6 +114,7 @@ export const Serializers = new Map<string, Serializer>([
 
         const result = await octokit.request(request);
 
+        // @ts-expect-error no idea what's happening here
         return result;
       },
     },
@@ -166,6 +168,8 @@ export const Serializers = new Map<string, Serializer>([
         data.state.userId = result.data.user.id;
         // we need to map the id so future requests to updata can be modified
         SERIALIZER_MAP.set(descriptor.result.data.id, result);
+
+        // @ts-expect-error no idea what's happening here
         return result;
       },
     },
