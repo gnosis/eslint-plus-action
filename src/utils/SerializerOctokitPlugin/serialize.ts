@@ -114,6 +114,7 @@ export const Serializers = new Map<string, Serializer>([
 
         const result = await octokit.request(request);
 
+        // @ts-expect-error no idea
         return result;
       },
     },
@@ -168,6 +169,7 @@ export const Serializers = new Map<string, Serializer>([
         // we need to map the id so future requests to updata can be modified
         SERIALIZER_MAP.set(descriptor.result.data.id, result);
 
+        // @ts-expect-error no idea
         return result;
       },
     },

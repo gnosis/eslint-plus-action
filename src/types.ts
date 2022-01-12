@@ -34,7 +34,7 @@ export type WorkflowPersistentState = {
   };
 };
 
-type OctokitResponse<
+export type OctokitResponse<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends (...args: any[]) => any,
   R = ReturnType<T>
