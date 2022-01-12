@@ -85,7 +85,7 @@ export async function fetchFilesBatchCommit(
   repo: string = REPO,
 ): Promise<string[]> {
   try {
-    const resp = await client.repos.getCommit({
+    const resp = await client.rest.repos.getCommit({
       owner,
       repo,
       ref: data.sha,
@@ -103,7 +103,7 @@ export async function fetchFilesBatchCommit(
 
     return filesChanged;
   } catch (err) {
-    core.error(err);
+    core.error(new Error(String(err)));
     return [];
   }
 }
@@ -123,7 +123,7 @@ export async function createCheck(
     repo,
   };
 
-  const createCheckResult = await client.checks.create(params);
+  const createCheckResult = await client.rest.checks.create(params);
   data.state.checkId = createCheckResult.data.id;
 
   return (nextParams: Partial<OctokitUpdateChecksParams>) =>
@@ -148,7 +148,7 @@ export async function updateCheck(
     ...nextParams,
   };
 
-  const result = await client.checks.update(params);
+  const result = await client.rest.checks.update(params);
 
   return result;
 }
@@ -164,7 +164,7 @@ export async function getCurrentWorkflow(
   owner: string = OWNER,
   repo: string = REPO,
 ): Promise<GitHubWorkflow | undefined> {
-  const workflows = await client.actions.listRepoWorkflows({
+  const workflows = await client.rest.actions.listRepoWorkflows({
     owner,
     repo,
   });

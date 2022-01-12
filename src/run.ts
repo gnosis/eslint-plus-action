@@ -136,6 +136,7 @@ async function run(): Promise<void> {
             artifact.name.startsWith(ARTIFACT_KEY_LINT_RESULTS),
           ),
         );
+        // @ts-expect-error deserializeArtifacts is added by a custom plugin
         await client.deserializeArtifacts(artifacts);
 
         workflowState.scheduler.lastRunAt = new Date().toISOString();

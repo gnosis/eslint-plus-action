@@ -61,29 +61,29 @@ export type OctokitRequestOptions = import('@octokit/types/dist-types/EndpointDe
 export type OctokitOptions = import('@octokit/core/dist-types/types').OctokitOptions;
 
 export type OctokitUpdateChecksResponse = OctokitResponse<
-  Octokit['checks']['update']
+  Octokit['rest']['checks']['update']
 >;
 
 export type OctokitCreateChecksParams = OctokitParameters<
-  Octokit['checks']['create']
+  Octokit['rest']['checks']['create']
 >;
 
 export type OctokitUpdateChecksParams = OctokitParameters<
-  Octokit['checks']['update']
+  Octokit['rest']['checks']['update']
 >;
 
 export type OctokitCreateCheckResponse = OctokitResponse<
-  Octokit['checks']['create']
+  Octokit['rest']['checks']['create']
 >;
 export type OctokitCreateCommentResponse = OctokitResponse<
-  Octokit['issues']['createComment']
+  Octokit['rest']['issues']['createComment']
 >;
 export type OctokitDeleteCommentResponse = OctokitResponse<
-  Octokit['issues']['deleteComment']
+  Octokit['rest']['issues']['deleteComment']
 >;
 
 export type OctokitListArtifactsResponse = OctokitResponse<
-  Octokit['actions']['listArtifactsForRepo']
+  Octokit['rest']['actions']['listArtifactsForRepo']
 >;
 
 export type GithubContext = typeof github['context'];
@@ -181,8 +181,8 @@ export type GitHubArtifact = {
   url: string;
   archive_download_url: string;
   expired: boolean;
-  created_at: string;
-  expires_at: string;
+  created_at: string | null;
+  expires_at: string | null;
 };
 
 export type GitHubWorkflow = {

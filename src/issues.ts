@@ -10,7 +10,7 @@ async function removeIssueSummary(client: Octokit, data: ActionData) {
     data.persist.workflow.userId = (data.persist as any).action?.userId;
   }
   if (data.issueNumber && data.persist.workflow.userId) {
-    const comments = await client.issues.listComments({
+    const comments = await client.rest.issues.listComments({
       owner: OWNER,
       repo: REPO,
       issue_number: data.issueNumber,
@@ -19,7 +19,7 @@ async function removeIssueSummary(client: Octokit, data: ActionData) {
       comments.data.reduce((arr, comment) => {
         if (comment.user?.id === data.persist.workflow.userId) {
           arr.push(
-            client.issues.deleteComment({
+            client.rest.issues.deleteComment({
               owner: OWNER,
               repo: REPO,
               comment_id: comment.id,
@@ -32,7 +32,7 @@ async function removeIssueSummary(client: Octokit, data: ActionData) {
   } else if (data.persist.issue.summaryId) {
     try {
       // delete previous and add new
-      await client.issues.deleteComment({
+      await client.rest.issues.deleteComment({
         owner: OWNER,
         repo: REPO,
         comment_id: data.persist.issue.summaryId,
@@ -49,7 +49,7 @@ async function createIssueComment(
   issueNumber: number,
   data: ActionData,
 ) {
-  const commentResult = await client.issues.createComment({
+  const commentResult = await client.rest.issues.createComment({
     owner: OWNER,
     repo: REPO,
     issue_number: issueNumber,
@@ -74,7 +74,7 @@ export async function handleIssueComment(client: Octokit, data: ActionData) {
       if (data.persist.issue.summaryId && data.issueSummaryMethod === 'edit') {
         // delete previous and add new
         try {
-          const result = await client.issues.updateComment({
+          const result = await client.rest.issues.updateComment({
             owner: OWNER,
             repo: REPO,
             comment_id: data.persist.issue.summaryId,

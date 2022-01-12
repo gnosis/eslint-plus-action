@@ -35,14 +35,14 @@ const defaultArtifactFilter = (artifacts: GitHubArtifact[]) =>
   artifacts.filter((artifact) => artifact.name.startsWith(ARTIFACT_KEY));
 
 function getArtifactsForRepo(client: Octokit) {
-  return client.actions.listArtifactsForRepo({
+  return client.rest.actions.listArtifactsForRepo({
     owner: OWNER,
     repo: REPO,
   });
 }
 
 function deleteArtifact(client: Octokit, artifact: GitHubArtifact) {
-  return client.actions.deleteArtifact({
+  return client.rest.actions.deleteArtifact({
     owner: OWNER,
     repo: REPO,
     artifact_id: artifact.id,
@@ -146,7 +146,7 @@ export async function downloadArtifact(
   client: Octokit,
   target: GitHubArtifact,
 ): Promise<string> {
-  const downloadData = await client.actions.downloadArtifact({
+  const downloadData = await client.rest.actions.downloadArtifact({
     owner: OWNER,
     repo: REPO,
     artifact_id: target.id,
