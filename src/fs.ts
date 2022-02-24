@@ -53,7 +53,7 @@ async function* getFilesFromPR(
 
       cursor = result.endCursor;
     } catch (err) {
-      core.error(err);
+      core.error(new Error(String(err)));
       throw err;
     }
   }
@@ -71,7 +71,7 @@ async function* getFilesFromCommit(
       yield filtered.splice(0, 50);
     }
   } catch (err) {
-    core.error(err);
+    core.error(new Error(String(err)));
     throw err;
   }
 }
@@ -100,5 +100,5 @@ export function getChangedFiles(
 export const unzipEntry = (entryName: string, buf: Buffer): Promise<string> =>
   new Promise((resolve) => {
     const zip = new Zip(buf);
-    zip.readAsTextAsync(zip.getEntry(entryName), resolve);
+    zip.readAsTextAsync(zip.getEntry(entryName) ?? '', resolve);
   });

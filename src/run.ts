@@ -136,6 +136,7 @@ async function run(): Promise<void> {
             artifact.name.startsWith(ARTIFACT_KEY_LINT_RESULTS),
           ),
         );
+        // @ts-expect-error deserializeArtifacts is added by a custom plugin
         await client.deserializeArtifacts(artifacts);
 
         workflowState.scheduler.lastRunAt = new Date().toISOString();
@@ -180,6 +181,7 @@ async function run(): Promise<void> {
         await lintChangedFiles(client, data);
 
         if (data.isReadOnly) {
+          // @ts-expect-error deserializeArtifacts is added by a custom plugin
           const artifacts: string = await client.getSerializedArtifacts();
           await saveArtifact(getIssueLintResultsName(data), artifacts);
         } else {
@@ -193,8 +195,8 @@ async function run(): Promise<void> {
       }
     }
   } catch (err) {
-    core.error(err);
-    core.setFailed(err.message);
+    core.error(new Error(String(err)));
+    core.setFailed(String(err));
   }
 }
 

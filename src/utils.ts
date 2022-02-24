@@ -3,7 +3,7 @@ import { isDeepStrictEqual } from 'util';
 import day from 'dayjs';
 
 import * as core from '@actions/core';
-import { CLIEngine } from 'eslint';
+import { ESLint, Linter } from 'eslint';
 
 import {
   ChecksAnnotations,
@@ -124,22 +124,22 @@ export const processInput = <D>(key: string, defaultValue?: D): string | D => {
 };
 
 export function processLintResults(
-  engine: CLIEngine,
-  report: CLIEngine.LintReport,
+  engine: ESLint,
+  results: ESLint.LintResult[],
   data: ActionData,
 ): {
   annotations: ChecksUpdateParamsOutput['annotations'];
 } {
   const { state } = data;
-  const { results } = report;
   const annotations: ChecksAnnotations[] = [];
-
-  state.errorCount += report.errorCount;
-  state.warningCount += report.warningCount;
-  state.fixableErrorCount += report.fixableErrorCount;
-  state.fixableWarningCount += report.fixableWarningCount;
+  const linter = new Linter(); // only used to get rules metadata
 
   for (const result of results) {
+    state.errorCount += result.errorCount;
+    state.warningCount += result.warningCount;
+    state.fixableErrorCount += result.fixableErrorCount;
+    state.fixableWarningCount += result.fixableWarningCount;
+
     const { messages } = result;
     const filePath = result.filePath.replace(`${GITHUB_WORKSPACE}/`, '');
     core.debug(`----- Results for File: ${filePath} -----`);
@@ -188,7 +188,7 @@ export function processLintResults(
 
       const rule = state.rulesSummaries.get(ruleId);
       if (!rule) {
-        const ruleDocs = engine.getRules().get(ruleId)?.meta?.docs;
+        const ruleDocs = linter.getRules().get(ruleId)?.meta?.docs;
         state.rulesSummaries.set(ruleId, {
           ruleUrl: ruleDocs?.url,
           ruleId,

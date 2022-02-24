@@ -41,6 +41,7 @@ export const SerializerOctokitPlugin = (
 
     octokit.hook.wrap(
       'request',
+      // @ts-expect-error whoop and no error
       async (
         request,
         requestOptions: OctokitRequestOptions,
@@ -92,6 +93,7 @@ export const SerializerOctokitPlugin = (
           return serializeResult.result;
           // temp actually make requests
         }
+        // @ts-expect-error whoop and no error
         return request(requestOptions);
       },
     );
